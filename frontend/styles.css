@@ -1,0 +1,214 @@
+/* --- Fuente Nerd Font --- */
+@font-face {
+    font-family: 'JetBrainsMono Nerd Font';
+    src: local('JetBrainsMono Nerd Font Bold'),
+         local('JetBrainsMonoNerdFont-Bold'),
+         url('file:///usr/share/fonts/TTF/JetBrainsMonoNerdFont-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'JetBrainsMono Nerd Font';
+    src: local('JetBrainsMono Nerd Font Regular'),
+         local('JetBrainsMonoNerdFont-Regular'),
+         url('file:///usr/share/fonts/TTF/JetBrainsMonoNerdFontMono-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* --- Paleta de colores --- */
+:root {
+    --color-black: #1e1e1e;
+    --color-dark-grey: #252526;
+    --color-mid-grey: #333;
+    --color-light-grey: #858585;
+    --color-white: #d4d4d4;
+    --color-purple: #6a1b9a;
+    --color-purple-light: #9c4dcc;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: var(--color-black);
+    color: var(--color-white);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* --- Navbar --- */
+.navbar {
+    background-color: var(--color-mid-grey);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-light-grey);
+}
+
+.navbar-brand {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--color-purple-light);
+}
+
+/* --- Menu Styles --- */
+.menu {
+    display: flex;
+    align-items: center;
+}
+
+.menu-item {
+    position: relative;
+    margin-left: 20px;
+}
+
+.menu-item span {
+    cursor: pointer;
+    color: var(--color-white);
+    padding: 8px 12px;
+    display: block;
+    transition: background-color 0.2s;
+}
+
+.menu-item span:hover {
+    background-color: var(--color-dark-grey);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: var(--color-mid-grey);
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 10;
+    border: 1px solid var(--color-light-grey);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.dropdown-content a {
+    color: var(--color-white);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.2s;
+}
+
+.dropdown-content a:hover {
+    background-color: var(--color-dark-grey);
+}
+
+.menu-item:hover .dropdown-content {
+    display: block;
+}
+
+/* --- Layout general --- */
+.container {
+    display: flex;
+    flex: 1;
+    padding: 10px;
+    gap: 10px;
+    overflow: hidden;
+}
+
+/* --- Panel del editor --- */
+.editor-pane {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-dark-grey);
+    border: 1px solid var(--color-mid-grey);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.editor-pane h2 {
+    font-size: 1em;
+    padding: 10px;
+    margin: 0;
+    background-color: var(--color-mid-grey);
+    border-bottom: 1px solid var(--color-mid-grey);
+}
+
+/* --- Área de edición --- */
+.editor-wrapper {
+    flex: 1;
+    display: flex;
+    background-color: var(--color-black);
+    font-family: 'JetBrainsMono Nerd Font', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Números de línea */
+.line-numbers {
+    width: 40px;
+    padding: 10px 8px;
+    background-color: var(--color-dark-grey);
+    color: var(--color-light-grey);
+    text-align: right;
+    user-select: none;
+    font-family: 'JetBrainsMono Nerd Font', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow: hidden;
+    font-weight: normal;
+}
+
+/* Contenido del código */
+.editor-content {
+    flex: 1;
+    height: 100%;
+    padding: 10px;
+    margin: 0;
+    color: var(--color-white);
+    outline: none;
+    overflow-y: auto;
+    white-space: pre;
+    font-family: 'JetBrainsMono Nerd Font', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    box-sizing: border-box;
+    font-weight: normal;
+}
+
+/* --- Consola inferior --- */
+.console-pane {
+    height: 160px;
+    background-color: var(--color-dark-grey);
+    border: 1px solid var(--color-mid-grey);
+    margin: 0 10px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.console-pane h2 {
+    font-size: 1em;
+    padding: 10px;
+    margin: 0;
+    background-color: var(--color-mid-grey);
+    border-bottom: 1px solid var(--color-mid-grey);
+}
+
+#consola-output {
+    flex: 1;
+    padding: 12px;
+    margin: 0;
+    background-color: var(--color-black);
+    font-family: 'JetBrainsMono Nerd Font', 'Courier New', monospace;
+    font-size: 14px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    line-height: 1.5;
+    color: var(--color-white);
+    font-weight: normal;
+}
