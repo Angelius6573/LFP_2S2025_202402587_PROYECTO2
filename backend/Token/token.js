@@ -28,4 +28,44 @@ export const ReservedWords = {
   out: 'OUT',
   println: 'PRINTLN',
   '\n': 'NEWLINE',
+  private: 'PRIVATE',
+  final: 'FINAL',
+  return: 'RETURN',
+  protected: 'PROTECTED',
+};
+
+export const Delimiters = {
+  '{': 'LLAVE_IZQ', 
+  '}': 'LLAVE_DER', 
+  '(': 'PAR_IZQ', 
+  ')': 'PAR_DER', 
+  '[': 'COR_IZQ', 
+  ']': 'COR_DER', 
+  ';': 'SEMICOLON', 
+  ',': 'COMMA'
+};
+
+export const Operators = {
+  '=': 'EQUAL',
+  '+=': 'OPERADOR_ASIGNACION', 
+  '-=': 'OPERADOR_ASIGNACION',
+  '*=': 'OPERADOR_ASIGNACION',
+  '/=': 'OPERADOR_ASIGNACION',
+  '%=': 'OPERADOR_ASIGNACION',
+  '+': 'OPERADOR_ARIT', 
+  '-': 'OPERADOR_ARIT', 
+  '*': 'OPERADOR_ARIT', 
+  '/': 'OPERADOR_ARIT', 
+  '%': 'OPERADOR_ARIT',
+  '==': 'OPERADOR_REL', 
+  '!=': 'OPERADOR_REL', 
+  '>=': 'OPERADOR_REL', 
+  '<=': 'OPERADOR_REL', 
+  '>': 'OPERADOR_REL', 
+  '<': 'OPERADOR_REL',
+  '++': 'OPERADOR', 
+  '--': 'OPERADOR',
+  '&&': 'OPERADOR_LOGICO', 
+  '||': 'OPERADOR_LOGICO', 
+  '!': 'OPERADOR_LOGICO',
 };
