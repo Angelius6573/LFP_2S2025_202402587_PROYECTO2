@@ -17,7 +17,6 @@ export class Parser {
     return { errors: this.errors, python: this.python };
   }
 
-  // PROGRAMA ::= 'public' 'class' ID '{' MAIN '}'
   programa() {
     this.consume('PUBLIC');
     this.consume('CLASS');
@@ -32,7 +31,6 @@ export class Parser {
     }
   }
 
-  // MAIN ::= 'public' 'static' 'void' 'main' '(' 'String' '[' ']' ID ')' '{' SENTENCIAS '}'
   main() {
     this.consume('PUBLIC');
     this.consume('STATIC');
@@ -49,7 +47,6 @@ export class Parser {
     this.consume('LLAVE_DER');
   }
 
-  // SENTENCIAS::= SENTENCIA SENTENCIAS | ε
   sentencias() {
     while (!this.check('LLAVE_DER') && this.pos < this.tokens.length) {
       const t = this.tokens[this.pos];
@@ -78,14 +75,12 @@ export class Parser {
         case 'IDENTIFICADOR':
           this.asignacion();
           break;
-        // --- MANEJO DE COMENTARIOS (NUEVO) ---
         case 'COMENTARIO_LINEA':
           this.comentarioLineaStmt();
           break;
         case 'COMENTARIO_BLOQUE':
           this.comentarioBloqueStmt();
           break;
-        // --- FIN MANEJO DE COMENTARIOS ---
         default:
           this.errors.push(new Error('Sintáctico', t.value, 'Instrucción no válida o inesperada', t.line, t.column));
           this.pos++;
@@ -93,11 +88,10 @@ export class Parser {
     }
   }
 
-  // --- MÉTODOS DE COMENTARIO (NUEVO) ---
   comentarioLineaStmt() {
     const t = this.consume('COMENTARIO_LINEA');
     if (t.value) { // Solo emitir si no está vacío
-      this.emit(`# ${t.value}`); // [cite: 104, 108]
+      this.emit(`# ${t.value}`);
     }
   }
 
@@ -105,17 +99,15 @@ export class Parser {
     const t = this.consume('COMENTARIO_BLOQUE');
     const lineas = t.value.split('\n');
     if (lineas.length > 1) {
-      // Traducción multilínea [cite: 105, 106, 109, 110]
       this.emit(`'''`);
       // Emitir cada línea con la indentación actual
       lineas.forEach(l => this.emit(l.trim()));
       this.emit(`'''`);
     } else {
       // Traducción una línea
-      this.emit(`'''${t.value}'''`); // [cite: 105, 106, 109, 110]
+      this.emit(`'''${t.value}'''`);
     }
   }
-  // --- FIN MÉTODOS DE COMENTARIO ---
 
   declaracion() {
     const tipoToken = this.tokens[this.pos];
@@ -179,7 +171,6 @@ export class Parser {
     this.consume('FOR');
     this.consume('PAR_IZQ');
 
-    // 1. FOR_INIT
     this.pos++; // Saltar TIPO
     const id = this.consume('IDENTIFICADOR');
     this.consume('EQUAL');
@@ -187,20 +178,16 @@ export class Parser {
     this.emit(`${id.value} = ${initVal}`);
     this.consume('SEMICOLON');
 
-    // 2. EXPRESION (Condición)
     const cond = this.expresion();
     this.consume('SEMICOLON');
 
-    // 3. FOR_UPDATE
     const idUpdate = this.consume('IDENTIFICADOR');
     const updateOp = this.consume('INCREMENTO');
     const pyUpdate = updateOp.value === '++' ? `${idUpdate.value} += 1` : `${idUpdate.value} -= 1`;
     this.consume('PAR_DER');
 
-    // Emitir el 'while'
     this.emit(`while ${cond}:`);
     
-    // 4. Bloque y actualización
     const oldIndent = this.indent;
     this.indent += '    ';
     

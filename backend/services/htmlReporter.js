@@ -243,7 +243,6 @@ export function generarReporteHtml(tokens, lexErrs, synErrs) {
     </table>
   </div>`;
 
-  // Errores léxicos
   if (lexErrs.length > 0) {
     html += `
   <div class="section">

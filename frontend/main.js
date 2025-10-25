@@ -29,8 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pythonLineNumbers.scrollTop = pythonEditor.scrollTop;
     });
 
-    // --- Funciones de Archivo ---
-
+    // Funciones de Archivo
     btnNuevo.addEventListener('click', (e) => {
         e.preventDefault();
         javaEditor.textContent = '';
@@ -80,8 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         downloadFile('traducido.py', content, 'text/x-python');
     });
 
-    // --- Funciones de Traducción ---
-
+    // Funciones de Traducción
     btnTraducir.addEventListener('click', async (e) => {
         e.preventDefault();
         const code = javaEditor.textContent;
@@ -171,7 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('JavaBridge v1.0\nDesarrollado por: Angel Raúl Herrera Chilel\nProyecto 2 - Lenguajes Formales y de Programación.');
     });
 
-    // --- Requisito 3: Funcionalidad de TAB ---
     javaEditor.addEventListener('keydown', (e) => {
         if (e.key === 'Tab') {
             e.preventDefault();
@@ -179,23 +176,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Requisito 4: Números de Línea ---
     javaEditor.addEventListener('input', () => {
         updateLineNumbers(javaEditor, javaLineNumbers);
     });
 
-    /**
-     * Requisito 4: Actualiza la barra de números de línea
-     */
     function updateLineNumbers(editor, numberDiv) {
         const text = editor.textContent || '';
         const lineCount = text.split('\n').length;
         numberDiv.innerHTML = Array.from({ length: lineCount }, (_, i) => i + 1).join('\n');
     }
 
-    /**
-     * Función auxiliar para descargar archivos
-     */
+    // Función auxiliar para descargar archivos
     function downloadFile(filename, content, mimeType) {
         const element = document.createElement('a');
         const file = new Blob([content], { type: mimeType });
@@ -207,7 +198,6 @@ document.addEventListener('DOMContentLoaded', () => {
         URL.revokeObjectURL(element.href); // Liberar memoria
     }
     
-    // Inicializar números de línea al cargar
     updateLineNumbers(javaEditor, javaLineNumbers);
     updateLineNumbers(pythonEditor, pythonLineNumbers);
 });

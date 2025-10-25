@@ -59,7 +59,7 @@ export function simularPython(code) {
             
             // Ejecutar el while
             let iteraciones = 0;
-            const MAX_ITER = 1000; // Prevenir loops infinitos
+            const MAX_ITER = 1000; // Prevenimos loops infinitos
             
             while (evaluarCondicion(condition, vars) && iteraciones < MAX_ITER) {
               for (const blockLine of blockLines) {

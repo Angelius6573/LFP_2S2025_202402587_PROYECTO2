@@ -31,7 +31,6 @@ export class Lexer {
         continue;
       }
 
-      // --- MANEJO DE COMENTARIOS (MODIFICADO) ---
       if (char === '/') {
         const next = this.texto[this.pos + 1] || '';
         if (next === '/') {
@@ -42,7 +41,6 @@ export class Lexer {
           continue;
         }
       }
-      // --- FIN MANEJO DE COMENTARIOS ---
 
       if (this.esLetra(char)) { this.identificador(); continue; }
       if (this.esDigito(char)) { this.numero(); continue; }
@@ -63,8 +61,8 @@ export class Lexer {
 
   comentarioLinea() {
     const iniCol = this.columna;
-    this.avanzar(); // Salta /
-    this.avanzar(); // Salta /
+    this.avanzar();
+    this.avanzar();
     let buf = '';
     while (this.pos < this.texto.length && this.texto[this.pos] !== '\n') {
       buf += this.texto[this.pos];
@@ -76,15 +74,15 @@ export class Lexer {
   comentarioBloque() {
     const iniLinea = this.linea;
     const iniCol = this.columna;
-    this.avanzar(); // Salta /
-    this.avanzar(); // Salta *
+    this.avanzar();
+    this.avanzar();
     let buf = '';
 
     while (this.pos < this.texto.length) {
       const char = this.texto[this.pos];
       if (char === '*' && this.texto[this.pos + 1] === '/') {
-        this.avanzar(); // Salta *
-        this.avanzar(); // Salta /
+        this.avanzar(); 
+        this.avanzar();
         this.tokens.push(new Token('COMENTARIO_BLOQUE', buf, iniLinea, iniCol));
         return;
       } else if (char === '\n') {
