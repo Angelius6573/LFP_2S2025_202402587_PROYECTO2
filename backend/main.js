@@ -11,7 +11,7 @@ const PORT = 4000;
 app.use(express.json());
 app.use(cors());
 
-app.post('/analizar', (req, res) => {
+app.post('/analizar', async (req, res) => { // !C Que sea asincrono es fundamental, sino se rompe al solo enviar la promesa
   const { code } = req.body;
   if (!code) return res.status(400).json({ error: 'No se envió código' });
 
@@ -26,7 +26,13 @@ app.post('/analizar', (req, res) => {
     const pythonCode = parseResult.python;
 
     const reporteHtml = generarReporteHtml(tokens, lexicalErrors, syntaxErrors);
-    const simulacion = simularPython(pythonCode);
+
+    let simulacion;
+    if(syntaxErrors.length === 0){
+      simulacion = await simularPython(pythonCode);
+    } else {
+      simulacion = "No se puede we"
+    }
 
     return res.json({
       tokens,
