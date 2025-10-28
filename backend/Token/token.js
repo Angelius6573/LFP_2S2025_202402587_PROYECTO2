@@ -27,6 +27,7 @@ export const ReservedWords = {
   System: 'SYSTEM',
   out: 'OUT',
   println: 'PRINTLN',
+  print: 'PRINT',
   '\n': 'NEWLINE',
   private: 'PRIVATE',
   final: 'FINAL',
