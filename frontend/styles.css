@@ -1,18 +1,14 @@
 @font-face {
     font-family: 'JetBrainsMono Nerd Font';
-    src: local('JetBrainsMono Nerd Font Bold'),
-         local('JetBrainsMonoNerdFont-Bold'),
-         url('file:///usr/share/fonts/TTF/JetBrainsMonoNerdFont-Bold.ttf') format('truetype');
-    font-weight: bold;
+    src: url('./fonts/JetBrainsMonoNerdFontMono-Regular.ttf') format('truetype');
+    font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'JetBrainsMono Nerd Font';
-    src: local('JetBrainsMono Nerd Font Regular'),
-         local('JetBrainsMonoNerdFont-Regular'),
-         url('file:///usr/share/fonts/TTF/JetBrainsMonoNerdFontMono-Regular.ttf') format('truetype');
-    font-weight: normal;
+    src: url('./fonts/JetBrainsMonoNerdFont-Bold.ttf') format('truetype');
+    font-weight: bold;
     font-style: normal;
 }
 

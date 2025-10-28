@@ -1,12 +1,46 @@
+const outputElement = document.getElementById('python-output');
+const javaCodeInput = document.getElementById('java-code-input');
+const SERVER_URL = 'http://localhost:4000/analizar';
+
+async function handleAnalyzeAndSimulate() {
+    const javaCode = javaCodeInput.value;
+    outputElement.textContent = 'Analizando...';
+
+    try {
+        const response = await fetch(SERVER_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code: javaCode })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error del servidor: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        
+        // Mostrar la simulación directamente
+        outputElement.textContent = data.simulacion;
+
+        if (data.syntaxErrors && data.syntaxErrors.length > 0) {
+            // !C Si hay errores sintácticos, la 'simulacion' contendrá el mensaje de error del backend
+            console.error("Errores:", data.syntaxErrors);
+        }
+
+    } catch (error) {
+        outputElement.textContent = `Error Horrible en la Comunicación: ${error.message}`;
+        console.error(error);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // Selectores para los nuevos editores
     const javaEditor = document.getElementById('java-editor');
     const pythonEditor = document.getElementById('python-editor');
     const javaLineNumbers = document.getElementById('java-line-numbers');
-    const pythonLineNumbers = document.getElementById('python-line-numbers');
+    const pythonLineNumbers= document.getElementById('python-line-numbers');
     const consolaOutput = document.getElementById('consola-output');
     
-    // Botones de menú
     const btnNuevo = document.getElementById('btn-nuevo');
     const btnAbrir = document.getElementById('btn-abrir');
     const fileInput = document.getElementById('file-input');
@@ -20,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let lastAnalysisResult = null;
     const API_URL = 'http://localhost:4000/analizar';
 
-    // Sincronizar scroll entre editores y números de línea
+    // !C Sincronizar scroll entre editor y números de línea omg it's work
     javaEditor.addEventListener('scroll', () => {
         javaLineNumbers.scrollTop = javaEditor.scrollTop;
     });
@@ -29,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
         pythonLineNumbers.scrollTop = pythonEditor.scrollTop;
     });
 
-    // Funciones de Archivo
     btnNuevo.addEventListener('click', (e) => {
         e.preventDefault();
         javaEditor.textContent = '';
@@ -76,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('No hay código Python para guardar.');
             return;
         }
-        downloadFile('traducido.py', content, 'text/x-python');
+        downloadFile('Traducido.py', content, 'text/x-python');
     });
 
     // Funciones de Traducción
@@ -98,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ code })
-            });
+            }); //!C Teóricamente con esto se puede usar httpie bien bien
 
             if (!response.ok) {
                 const err = await response.json();
@@ -149,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnSimular.addEventListener('click', (e) => {
         e.preventDefault();
         if (!lastAnalysisResult || !lastAnalysisResult.pythonCode) {
-            alert('No hay código Python válido para simular. Genera una traducción exitosa primero.');
+            alert('No hay código Python válido para simular.');
             return;
         }
         const { simulacion } = lastAnalysisResult;
@@ -157,22 +190,18 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('No se recibió resultado de la simulación.');
             return;
         }
-        let output = '--- Iniciando Simulación ---\n';
-        if (simulacion.output) output += `${simulacion.output}\n`;
-        if (simulacion.error) output += `--- Errores de Simulación ---\n${simulacion.error}\n`;
-        output += '--- Simulación Finalizada ---';
-        consolaOutput.textContent = output;
+        consolaOutput.textContent = simulacion;
     });
 
     btnAcercaDe.addEventListener('click', (e) => {
         e.preventDefault();
-        alert('JavaBridge v1.0\nDesarrollado por: Angel Raúl Herrera Chilel\nProyecto 2 - Lenguajes Formales y de Programación.');
+        alert('JavaBridge v1.0\nDesarrollado por: Angel Raúl Herrera Chilel\nProyecto 2 - Lenguajes Formales y de Programación.\nhttps://github.com/Angelius6573/LFP_2S2025_202402587_PROYECTO2');
     });
 
-    javaEditor.addEventListener('keydown', (e) => {
+    javaEditor.addEventListener('keydown', (e) => { //!C Hay que implementar el coso para mantener la tabulación incluso cuando la línea cambia
         if (e.key === 'Tab') {
             e.preventDefault();
-            document.execCommand('insertText', false, '  '); // Insertar 2 espacios
+            document.execCommand('insertText', false, '  ');
         }
     });
 
@@ -193,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
         element.href = URL.createObjectURL(file);
         element.download = filename;
         document.body.appendChild(element);
-        element.click(); // CORRECCIÓN: Agregado "element." antes de click()
+        element.click();
         document.body.removeChild(element);
         URL.revokeObjectURL(element.href); // Liberar memoria
     }
