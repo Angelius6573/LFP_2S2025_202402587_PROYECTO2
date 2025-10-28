@@ -366,14 +366,43 @@ export class Parser {
     this.consume('DOT');
     this.consume('OUT');
     this.consume('DOT');
-    this.consume('PRINTLN');
+
+    let tipo;
+
+    if(this.check('PRINTLN')){
+      this.consume('PRINTLN');
+      tipo = 'println';
+    } else if(this.check('PRINT')) {
+      this.consume('PRINT');
+      tipo = 'print';
+    } else {
+      const t = this.tokens[this.pos];
+      this.errors.push(new Error('Sintáctico', t?.value || 'EOF', `Se esperaba PRINTLN o PRINT`, t?.line || 0, t?.column || 0));
+      return;
+    }
+
     this.consume('PAR_IZQ');
-    const args = this.expresion();
-    
+
+    let args = this.expresion();
+
     this.consume('PAR_DER'); 
-    this.consume('SEMICOLON'); 
+    this.consume('SEMICOLON');
+
+    args = args.trim();
+    if (args.startsWith('(') && args.endsWith(')')) {
+        args = args.slice(1, -1).trim();
+    } //!C Funciona, es muy coche hacerlo así, pero funciona
     
-    this.emit(`print(${args})`);
+
+    if (tipo === 'println') {
+        this.emit(`print(${args})`);
+    } else {
+        if (args) {
+            this.emit(`print(${args}, end='')`); 
+        } else {
+            this.emit(`print(end='')`);
+        }
+    }
   }
   
   comentarioLineaStmt() {
